@@ -1,0 +1,1319 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="YOUSIVAR–Ω — Beyond Intelligence. Beyond Limits. Premium cinematic AI platform showcase."
+    />
+    <title>YOUSIVAR–Ω | Beyond Intelligence. Beyond Limits.</title>
+    <style>
+      :root {
+        --canvas: #f7f7f5;
+        --canvas-strong: #efefeb;
+        --white: #ffffff;
+        --ink: #080808;
+        --ink-soft: #202020;
+        --muted: #777777;
+        --line: rgba(8, 8, 8, 0.12);
+        --line-strong: rgba(8, 8, 8, 0.72);
+        --panel: rgba(255, 255, 255, 0.72);
+        --panel-strong: rgba(255, 255, 255, 0.9);
+        --shadow-soft: rgba(0, 0, 0, 0.08);
+        --shadow-strong: rgba(0, 0, 0, 0.17);
+        --transition-fast: 180ms ease;
+        --transition-medium: 320ms cubic-bezier(0.2, 0.8, 0.2, 1);
+        --transition-slow: 760ms cubic-bezier(0.14, 0.7, 0.1, 1);
+        --max-width: 1200px;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html, body {
+        margin: 0;
+        min-height: 100%;
+        background: var(--canvas);
+        color: var(--ink);
+        font-family: "Segoe UI", Inter, "Helvetica Neue", Arial, sans-serif;
+      }
+
+      body {
+        line-height: 1.6;
+        letter-spacing: -0.02em;
+        overflow-x: hidden;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background:
+          radial-gradient(circle at 15% 20%, rgba(255,255,255,0.9), rgba(255,255,255,0) 28%),
+          radial-gradient(circle at 80% 18%, rgba(0,0,0,0.035), rgba(0,0,0,0) 28%),
+          linear-gradient(180deg, rgba(255,255,255,0.2), rgba(255,255,255,0) 28%);
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      img {
+        max-width: 100%;
+        display: block;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      button, input, textarea, select {
+        font: inherit;
+      }
+
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+
+      .page-shell {
+        position: relative;
+        z-index: 1;
+      }
+
+      .container {
+        width: min(var(--max-width), calc(100% - 32px));
+        margin: 0 auto;
+      }
+
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        backdrop-filter: blur(18px);
+        background: rgba(247, 247, 245, 0.7);
+        border-bottom: 1px solid var(--line);
+      }
+
+      .topbar-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 72px;
+        gap: 16px;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.18em;
+        font-size: clamp(1rem, 1vw + 0.7rem, 1.25rem);
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .brand span:last-child {
+        letter-spacing: 0;
+        font-weight: 800;
+      }
+
+      .nav {
+        display: flex;
+        align-items: center;
+        gap: 32px;
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        color: var(--ink-soft);
+      }
+
+      .nav-links a {
+        position: relative;
+        font-size: 0.82rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        transition: color var(--transition-fast);
+      }
+
+      .nav-links a::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -7px;
+        width: 100%;
+        height: 1px;
+        background: var(--ink);
+        transform: scaleX(0);
+        transform-origin: center;
+        transition: transform var(--transition-fast);
+      }
+
+      .nav-links a:hover,
+      .nav-links a:focus-visible {
+        color: var(--ink);
+      }
+
+      .nav-links a:hover::after,
+      .nav-links a:focus-visible::after {
+        transform: scaleX(1);
+      }
+
+      .nav-actions {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .button,
+      .ghost-button,
+      .nav-toggle {
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: rgba(255,255,255,0.7);
+        color: var(--ink);
+        cursor: pointer;
+        transition: transform var(--transition-fast), border-color var(--transition-fast), background var(--transition-fast), box-shadow var(--transition-fast);
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 48px;
+        padding: 0 20px;
+        font-size: 0.82rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .ghost-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 46px;
+        padding: 0 18px;
+        font-size: 0.76rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .button:hover,
+      .button:focus-visible,
+      .ghost-button:hover,
+      .ghost-button:focus-visible,
+      .nav-toggle:hover,
+      .nav-toggle:focus-visible {
+        transform: translateY(-1px);
+        border-color: rgba(8,8,8,0.35);
+        box-shadow: 0 12px 30px rgba(8,8,8,0.06);
+      }
+
+      .button.primary {
+        background: var(--ink);
+        color: var(--white);
+        border-color: var(--ink);
+      }
+
+      .nav-toggle {
+        display: none;
+        min-height: 42px;
+        padding: 0 16px;
+        font-size: 0.75rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      .intro-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 120;
+        display: grid;
+        place-items: center;
+        background: rgba(247, 247, 245, 0.92);
+        backdrop-filter: blur(16px);
+        transition: opacity var(--transition-slow), visibility var(--transition-slow);
+      }
+
+      .intro-overlay.is-hidden {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+      }
+
+      .intro-stage {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 26px;
+        width: min(100%, 920px);
+        padding: 32px 24px;
+      }
+
+      .intro-lines {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+      }
+
+      .intro-lines .line {
+        position: absolute;
+        background: rgba(8,8,8,0.9);
+        transform-origin: left center;
+        animation: lineReveal 1.1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+      }
+
+      .intro-lines .line.one {
+        left: 6%;
+        top: 22%;
+        width: 40%;
+        height: 1px;
+        animation-delay: 0.2s;
+      }
+
+      .intro-lines .line.two {
+        right: 8%;
+        top: 38%;
+        width: 34%;
+        height: 1px;
+        animation-delay: 0.35s;
+      }
+
+      .intro-lines .line.three {
+        left: 18%;
+        bottom: 24%;
+        width: 52%;
+        height: 1px;
+        animation-delay: 0.5s;
+      }
+
+      .intro-lines .line.four {
+        left: 50%;
+        top: 12%;
+        width: 1px;
+        height: 46%;
+        animation-delay: 0.28s;
+      }
+
+      .intro-lines .line.five {
+        right: 18%;
+        bottom: 18%;
+        width: 1px;
+        height: 30%;
+        animation-delay: 0.6s;
+      }
+
+      @keyframes lineReveal {
+        0% {
+          transform: scaleX(0) scaleY(0);
+          opacity: 0;
+        }
+        16% {
+          opacity: 1;
+        }
+        100% {
+          transform: scaleX(1) scaleY(1);
+          opacity: 1;
+        }
+      }
+
+      .intro-brand {
+        position: relative;
+        display: inline-flex;
+        align-items: baseline;
+        gap: 0.12em;
+        font-size: clamp(2.6rem, 7vw, 7rem);
+        letter-spacing: -0.08em;
+        font-weight: 800;
+        line-height: 0.9;
+        text-transform: uppercase;
+        overflow: hidden;
+      }
+
+      .intro-brand .word {
+        display: inline-block;
+        transform: translateY(120%);
+        opacity: 0;
+        animation: brandRise 0.9s cubic-bezier(0.26, 0.8, 0.2, 1) forwards;
+        animation-delay: 0.7s;
+      }
+
+      .intro-brand .omega {
+        display: inline-block;
+        transform: translateY(120%);
+        opacity: 0;
+        animation: brandRise 0.9s cubic-bezier(0.26, 0.8, 0.25, 1) forwards;
+        animation-delay: 0.86s;
+      }
+
+      @keyframes brandRise {
+        0% {
+          opacity: 0;
+          transform: translateY(120%);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0%);
+        }
+      }
+
+      .intro-tagline {
+        font-size: clamp(0.8rem, 1.6vw, 1.2rem);
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        opacity: 0;
+        transform: translateY(12px);
+        animation: fadeUp 0.9s ease forwards;
+        animation-delay: 1.2s;
+      }
+
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .intro-skip {
+        position: absolute;
+        right: 32px;
+        bottom: 32px;
+        border: 1px solid rgba(8,8,8,0.4);
+        background: rgba(255,255,255,0.6);
+        color: var(--ink);
+        border-radius: 999px;
+        min-height: 38px;
+        padding: 0 16px;
+        cursor: pointer;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        font-size: 0.72rem;
+      }
+
+      .hero {
+        position: relative;
+        padding: 52px 0 72px;
+      }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 1.15fr 0.85fr;
+        align-items: center;
+        gap: 44px;
+      }
+
+      .eyebrow {
+        margin: 0 0 18px;
+        font-size: 0.76rem;
+        text-transform: uppercase;
+        letter-spacing: 0.24em;
+        color: var(--muted);
+      }
+
+      .hero-copy h1 {
+        margin: 0;
+        font-size: clamp(3.4rem, 5vw, 7.4rem);
+        letter-spacing: -0.08em;
+        line-height: 0.9;
+      }
+
+      .hero-copy h2 {
+        margin: 14px 0 0;
+        font-size: clamp(1.1rem, 2vw, 2.1rem);
+        letter-spacing: -0.04em;
+        font-weight: 600;
+        color: var(--ink-soft);
+      }
+
+      .hero-copy p {
+        margin: 22px 0 0;
+        max-width: 60ch;
+        font-size: clamp(1rem, 1vw + 0.7rem, 1.25rem);
+        color: rgba(8,8,8,0.74);
+      }
+
+      .cta-row {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 14px;
+        margin-top: 28px;
+      }
+
+      .meta-row {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 20px;
+        margin-top: 30px;
+        color: var(--muted);
+        font-size: 0.75rem;
+        letter-spacing: 0.10em;
+        text-transform: uppercase;
+      }
+
+      .meta-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 9px 12px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: rgba(255,255,255,0.7);
+      }
+
+      .hero-visual {
+        position: relative;
+        min-height: 620px;
+      }
+
+      .visual-frame {
+        position: relative;
+        width: min(100%, 560px);
+        height: 100%;
+        min-height: 600px;
+        margin-left: auto;
+        border: 1px solid var(--line);
+        background: rgba(255,255,255,0.46);
+        box-shadow: 0 28px 60px rgba(0,0,0,0.08);
+        overflow: hidden;
+      }
+
+      .visual-frame::before,
+      .visual-frame::after {
+        content: "";
+        position: absolute;
+        border: 1px solid rgba(8,8,8,0.54);
+        pointer-events: none;
+      }
+
+      .visual-frame::before {
+        inset: 16px 18px 18px 16px;
+      }
+
+      .visual-frame::after {
+        inset: 36px 38px 36px 38px;
+        border-color: rgba(8,8,8,0.22);
+      }
+
+      .visual-panel {
+        position: absolute;
+        inset: 8% 12% 16% 12%;
+        background-size: cover;
+        background-position: center;
+        filter: saturate(0.72) contrast(1.04) brightness(0.95);
+        transform: scale(1.08);
+        opacity: 0;
+        animation: panelReveal 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+      }
+
+      .visual-panel:nth-child(1) {
+        background-image: linear-gradient(rgba(0,0,0,0.18), rgba(0,0,0,0.18)), url("https://i.postimg.cc/W1VnzMxt/OOO.png");
+        animation-delay: 0.6s;
+      }
+
+      .visual-panel:nth-child(2) {
+        inset: 18% 22% 22% 22%;
+        background-image: linear-gradient(rgba(0,0,0,0.12), rgba(0,0,0,0.12)), url("https://images.unsplash.com/photo-1516321165247-4aa89a48be28?auto=format&fit=crop&w=1200&q=80");
+        animation-delay: 1s;
+      }
+
+      .visual-panel:nth-child(3) {
+        inset: 30% 15% 10% 15%;
+        background-image: linear-gradient(rgba(0,0,0,0.14), rgba(0,0,0,0.14)), url("https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=80");
+        animation-delay: 1.35s;
+      }
+
+      @keyframes panelReveal {
+        0% {
+          opacity: 0;
+          transform: scale(1.2) translateY(22px);
+          filter: blur(10px);
+        }
+        100% {
+          opacity: 1;
+          transform: scale(1.05) translateY(0);
+          filter: blur(0);
+        }
+      }
+
+      .visual-sweep {
+        position: absolute;
+        inset: auto 12% 8% 12%;
+        height: 1px;
+        background: rgba(8,8,8,0.75);
+        transform: scaleX(0.15);
+        animation: sweep 1.3s cubic-bezier(0.18, 0.8, 0.2, 1) forwards;
+        animation-delay: 1.55s;
+      }
+
+      @keyframes sweep {
+        from {
+          transform: scaleX(0.15);
+          opacity: 0.2;
+        }
+        to {
+          transform: scaleX(1);
+          opacity: 1;
+        }
+      }
+
+      .section {
+        position: relative;
+        padding: 90px 0;
+      }
+
+      .section-header {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 18px;
+        margin-bottom: 34px;
+      }
+
+      .section-header h3 {
+        margin: 0;
+        font-size: clamp(2.1rem, 3vw, 3rem);
+        letter-spacing: -0.06em;
+      }
+
+      .section-header p {
+        margin: 0;
+        max-width: 50ch;
+        color: rgba(8,8,8,0.7);
+      }
+
+      .statement-box {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 26px;
+        padding: 26px 0;
+      }
+
+      .statement-card,
+      .mini-card,
+      .feature-card,
+      .profile-card,
+      .preview-card,
+      .info-card {
+        background: rgba(255,255,255,0.58);
+        border: 1px solid var(--line);
+        box-shadow: 0 16px 40px rgba(8,8,8,0.04);
+      }
+
+      .statement-card {
+        padding: 32px;
+      }
+
+      .statement-card p {
+        margin: 0;
+        font-size: clamp(1.1rem, 1.4vw, 1.6rem);
+        line-height: 1.55;
+        letter-spacing: -0.03em;
+      }
+
+      .mini-card {
+        padding: 22px;
+        display: grid;
+        gap: 18px;
+      }
+
+      .mini-card .label {
+        font-size: 0.7rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+
+      .mini-card .value {
+        font-size: clamp(1.25rem, 2vw, 2rem);
+        font-weight: 700;
+        letter-spacing: -0.06em;
+      }
+
+      .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 20px;
+      }
+
+      .feature-card {
+        position: relative;
+        padding: 26px 22px 22px;
+        min-height: 220px;
+        overflow: hidden;
+        transition: transform var(--transition-medium), border-color var(--transition-fast), box-shadow var(--transition-medium);
+      }
+
+      .feature-card::before {
+        content: "";
+        position: absolute;
+        right: 14px;
+        top: 14px;
+        width: 38px;
+        height: 38px;
+        border-left: 1px solid rgba(8,8,8,0.35);
+        border-top: 1px solid rgba(8,8,8,0.35);
+      }
+
+      .feature-card:hover,
+      .feature-card:focus-within {
+        transform: translateY(-4px);
+        box-shadow: 0 24px 50px rgba(0,0,0,0.06);
+        border-color: rgba(8,8,8,0.32);
+      }
+
+      .feature-card .kicker {
+        display: inline-block;
+        font-size: 0.72rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+
+      .feature-card h4 {
+        margin: 16px 0 0;
+        font-size: clamp(1.2rem, 1.8vw, 1.8rem);
+        letter-spacing: -0.05em;
+      }
+
+      .feature-card p {
+        margin: 14px 0 0;
+        color: rgba(8,8,8,0.72);
+      }
+
+      .feature-status {
+        margin-top: 18px;
+        display: inline-flex;
+        align-items: center;
+        padding: 7px 10px;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        font-size: 0.66rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        background: rgba(255,255,255,0.5);
+      }
+
+      .showcase-grid {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 22px;
+      }
+
+      .preview-card {
+        position: relative;
+        padding: 18px;
+      }
+
+      .preview-screen {
+        position: relative;
+        min-height: 430px;
+        border: 1px solid var(--line);
+        background: linear-gradient(180deg, rgba(8,8,8,0.02), rgba(8,8,8,0.08));
+        overflow: hidden;
+      }
+
+      .preview-media {
+        position: absolute;
+        inset: 0;
+        background-image: linear-gradient(rgba(0,0,0,0.08), rgba(0,0,0,0.14)), url("https://i.postimg.cc/W1VnzMxt/OOO.png");
+        background-size: cover;
+        background-position: center;
+        filter: grayscale(1) contrast(1.15) brightness(0.96);
+      }
+
+      .preview-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(255,255,255,0.2), rgba(255,255,255,0.8));
+      }
+
+      .preview-copy {
+        padding: 20px 6px 0;
+      }
+
+      .preview-copy h4 {
+        margin: 0 0 10px;
+        font-size: clamp(1.5rem, 2.3vw, 2.6rem);
+        letter-spacing: -0.06em;
+      }
+
+      .preview-copy p {
+        margin: 0;
+        color: rgba(8,8,8,0.72);
+      }
+
+      .info-card {
+        padding: 24px 22px;
+        display: grid;
+        gap: 18px;
+      }
+
+      .info-card .label {
+        font-size: 0.7rem;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+
+      .info-card ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: grid;
+        gap: 12px;
+      }
+
+      .info-card li {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        border-bottom: 1px solid var(--line);
+        padding-bottom: 12px;
+        color: rgba(8,8,8,0.78);
+      }
+
+      .info-card li:last-child {
+        border-bottom: 0;
+        padding-bottom: 0;
+      }
+
+      .profile-card {
+        display: grid;
+        grid-template-columns: 0.95fr 1.05fr;
+        gap: 22px;
+        padding: 28px;
+      }
+
+      .profile-photo {
+        min-height: 340px;
+        border: 1px solid var(--line);
+        background:
+          linear-gradient(rgba(8,8,8,0.08), rgba(8,8,8,0.08)),
+          url("https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=900&q=80") center/cover;
+      }
+
+      .profile-copy {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .profile-copy p {
+        margin: 0;
+        color: rgba(8,8,8,0.74);
+      }
+
+      .social-list {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+        margin-top: 18px;
+      }
+
+      .social-link {
+        display: block;
+        padding: 12px 14px;
+        border: 1px solid var(--line);
+        background: rgba(255,255,255,0.6);
+        color: var(--ink-soft);
+        transition: border-color var(--transition-fast), transform var(--transition-fast);
+      }
+
+      .social-link:hover,
+      .social-link:focus-visible {
+        border-color: rgba(8,8,8,0.4);
+        transform: translateY(-1px);
+      }
+
+      .footer {
+        padding: 34px 0 70px;
+      }
+
+      .footer-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        padding-top: 24px;
+        border-top: 1px solid var(--line);
+      }
+
+      .footer-copy {
+        color: var(--muted);
+        font-size: 0.78rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .footer-links {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        flex-wrap: wrap;
+        color: var(--ink-soft);
+        font-size: 0.74rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .reveal {
+        opacity: 0;
+        transform: translateY(26px);
+        transition: opacity 0.9s ease, transform 0.9s cubic-bezier(0.2,0.8,0.2,1);
+      }
+
+      .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      @media (max-width: 960px) {
+        .nav-links {
+          display: none;
+        }
+
+        .nav-toggle {
+          display: inline-flex;
+        }
+
+        .hero-grid,
+        .statement-box,
+        .showcase-grid,
+        .profile-card {
+          grid-template-columns: 1fr;
+        }
+
+        .feature-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .topbar-inner {
+          min-height: 64px;
+        }
+
+        .nav-actions .ghost-button {
+          display: none;
+        }
+
+        .hero {
+          padding-top: 30px;
+        }
+
+        .hero-copy h1 {
+          font-size: clamp(2.8rem, 18vw, 5rem);
+        }
+
+        .feature-grid,
+        .social-list {
+          grid-template-columns: 1fr;
+        }
+
+        .visual-frame {
+          min-height: 500px;
+        }
+
+        .section-header {
+          display: block;
+        }
+
+        .section-header p {
+          margin-top: 12px;
+        }
+
+        .footer-inner {
+          display: block;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+
+        *, *::before, *::after {
+          animation: none !important;
+          transition: none !important;
+        }
+
+        .reveal {
+          opacity: 1;
+          transform: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-shell">
+      <div class="intro-overlay" id="introOverlay" aria-live="polite">
+        <div class="intro-stage">
+          <div class="intro-lines" aria-hidden="true">
+            <span class="line one"></span>
+            <span class="line two"></span>
+            <span class="line three"></span>
+            <span class="line four"></span>
+            <span class="line five"></span>
+          </div>
+          <div class="intro-brand" aria-label="YOUSIVAR–Ω">
+            <span class="word">YOUSIVAR</span><span class="omega">–Ω</span>
+          </div>
+          <div class="intro-tagline">Beyond Intelligence. Beyond Limits.</div>
+        </div>
+        <button class="intro-skip" type="button" id="skipIntro">Skip intro</button>
+      </div>
+
+      <header class="topbar">
+        <div class="container topbar-inner">
+          <a href="#top" class="brand" aria-label="YOUSIVAR–Ω home">
+            <span>YOUSIVAR</span><span>–Ω</span>
+          </a>
+
+          <nav class="nav" aria-label="Main navigation">
+            <div class="nav-links">
+              <a href="#overview">Overview</a>
+              <a href="#experience">Experience</a>
+              <a href="#capabilities">Capabilities</a>
+              <a href="#preview">Preview</a>
+              <a href="#developer">Developer</a>
+            </div>
+            <div class="nav-actions">
+              <button type="button" class="ghost-button" id="audioToggle" aria-label="Toggle startup audio">
+                Audio
+              </button>
+              <a class="button primary" href="https://github.com/1994ivx-ops/YOUSIVAR-9944" target="_blank" rel="noopener noreferrer">Repository</a>
+            </div>
+          </nav>
+
+          <button type="button" class="nav-toggle" aria-label="Toggle navigation">Menu</button>
+        </div>
+      </header>
+
+      <main id="top">
+        <section class="hero">
+          <div class="container hero-grid">
+            <div class="hero-copy reveal">
+              <p class="eyebrow">Luxury AI identity</p>
+              <h1>YOUSIVAR–Ω</h1>
+              <h2>Beyond Intelligence. Beyond Limits.</h2>
+              <p>
+                An advanced AI platform that brings together intelligent models, flexible integrations,
+                and a seamless experience within one refined ecosystem.
+              </p>
+
+              <div class="cta-row">
+                <a class="button primary" href="https://github.com/1994ivx-ops/YOUSIVAR-9944" target="_blank" rel="noopener noreferrer">View project</a>
+                <a class="button" href="https://github.com/1994ivx-ops/YOUSIVAR-9944" target="_blank" rel="noopener noreferrer">Documentation</a>
+              </div>
+
+              <div class="meta-row" aria-label="Project metadata">
+                <span class="meta-pill">Brand identity</span>
+                <span class="meta-pill">Static showcase</span>
+                <span class="meta-pill">Open review</span>
+              </div>
+            </div>
+
+            <div class="hero-visual reveal">
+              <div class="visual-frame" aria-label="YOUSIVAR–Ω visual composition">
+                <div class="visual-panel"></div>
+                <div class="visual-panel"></div>
+                <div class="visual-panel"></div>
+                <div class="visual-sweep" aria-hidden="true"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="overview">
+          <div class="container">
+            <div class="section-header reveal">
+              <p class="eyebrow">Overview</p>
+              <h3>Authority through clarity.</h3>
+            </div>
+
+            <div class="statement-box reveal">
+              <article class="statement-card">
+                <p>
+                  “YOUSIVAR–Ω — Beyond Intelligence. Beyond Limits. An advanced artificial intelligence platform
+                  that combines the power of intelligent models, the flexibility of integration, and a seamless
+                  experience within one exceptional ecosystem. Designed to provide deeper control, broader
+                  capabilities, and creativity without limits through a refined interface and advanced technologies
+                  that redefine how you interact with artificial intelligence.”
+                </p>
+              </article>
+
+              <aside class="mini-card" aria-label="Project summary">
+                <span class="label">Status</span>
+                <div class="value">Cinematic white edition</div>
+                <span class="label">Scope</span>
+                <div class="value">Showcase front-end</div>
+              </aside>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="experience">
+          <div class="container">
+            <div class="section-header reveal">
+              <p class="eyebrow">Experience</p>
+              <h3>Cinematic design language.</h3>
+            </div>
+
+            <div class="showcase-grid reveal">
+              <article class="preview-card">
+                <div class="preview-screen" aria-label="Visual showcase preview">
+                  <div class="preview-media" aria-hidden="true"></div>
+                  <div class="preview-overlay" aria-hidden="true"></div>
+                </div>
+                <div class="preview-copy">
+                  <h4>Editorial precision</h4>
+                  <p>
+                    The experience favors restraint, negative space, and deliberate motion rather than cluttered effects.
+                  </p>
+                </div>
+              </article>
+
+              <aside class="info-card" aria-label="Design details">
+                <span class="label">Design system</span>
+                <ul>
+                  <li><span>Luxury dark to white inversion</span><strong>Refined</strong></li>
+                  <li><span>Glass surfaces</span><strong>Selective</strong></li>
+                  <li><span>Responsive layouts</span><strong>Verified</strong></li>
+                  <li><span>Reduced-motion support</span><strong>Included</strong></li>
+                </ul>
+              </aside>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="capabilities">
+          <div class="container">
+            <div class="section-header reveal">
+              <p class="eyebrow">Capabilities</p>
+              <h3>What this showcase presents.</h3>
+            </div>
+
+            <div class="feature-grid reveal">
+              <article class="feature-card">
+                <span class="kicker">01</span>
+                <h4>Branding</h4>
+                <p>Luxury product identity with a white-and-black cinematic treatment.</p>
+                <span class="feature-status">Implemented</span>
+              </article>
+
+              <article class="feature-card">
+                <span class="kicker">02</span>
+                <h4>Motion design</h4>
+                <p>Controlled reveals, fine lines, layered visual rhythm, and intentional transitions.</p>
+                <span class="feature-status">Implemented</span>
+              </article>
+
+              <article class="feature-card">
+                <span class="kicker">03</span>
+                <h4>Responsive layout</h4>
+                <p>Adaptive composition for mobile, tablet, and desktop without visual collapse.</p>
+                <span class="feature-status">Implemented</span>
+              </article>
+
+              <article class="feature-card">
+                <span class="kicker">04</span>
+                <h4>Interactive preview</h4>
+                <p>Hero motion, gallery sequencing, and layered editorial composition.</p>
+                <span class="feature-status">Demonstration</span>
+              </article>
+
+              <article class="feature-card">
+                <span class="kicker">05</span>
+                <h4>Audio control</h4>
+                <p>User-triggered startup sound support using the supplied external asset.</p>
+                <span class="feature-status">Optional</span>
+              </article>
+
+              <article class="feature-card">
+                <span class="kicker">06</span>
+                <h4>Documentation</h4>
+                <p>Repository and documentation links preserved for review and publishing.</p>
+                <span class="feature-status">Configured</span>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="preview">
+          <div class="container">
+            <div class="section-header reveal">
+              <p class="eyebrow">Preview</p>
+              <h3>Media treatment and product framing.</h3>
+            </div>
+
+            <div class="showcase-grid reveal">
+              <article class="preview-card">
+                <div class="preview-screen" aria-label="Cinematic media card">
+                  <div class="preview-media" aria-hidden="true" style="background-image: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.18)), url('https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1200&q=80');"></div>
+                  <div class="preview-overlay" aria-hidden="true"></div>
+                </div>
+                <div class="preview-copy">
+                  <h4>White cinematic surface</h4>
+                  <p>
+                    The prototype is designed to feel like an architectural film still seen through translucent product glass.
+                  </p>
+                </div>
+              </article>
+
+              <aside class="info-card" aria-label="Asset status">
+                <span class="label">Asset status</span>
+                <ul>
+                  <li><span>Brand image</span><strong>Verified</strong></li>
+                  <li><span>Startup audio</span><strong>External</strong></li>
+                  <li><span>Video asset</span><strong>Pending</strong></li>
+                  <li><span>APK</span><strong>Unavailable</strong></li>
+                </ul>
+              </aside>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="developer">
+          <div class="container">
+            <div class="section-header reveal">
+              <p class="eyebrow">Developer</p>
+              <h3>Yousef Z. A. Shaheen</h3>
+            </div>
+
+            <div class="profile-card reveal">
+              <div class="profile-photo" aria-label="Developer portrait"></div>
+
+              <div class="profile-copy">
+                <p>
+                  The project branding and public contact destinations supplied by the owner are preserved here,
+                  including social, email, and documentation destinations. These links are included as supplied and
+                  should be verified individually before public use.
+                </p>
+
+                <div class="social-list" aria-label="Social links">
+                  <a class="social-link" href="https://www.tiktok.com/@zix8ii?_r=1&_d=f3c01a6371bii9&sec_uid=" target="_blank" rel="noopener noreferrer">TikTok</a>
+                  <a class="social-link" href="https://www.facebook.com/share/19u4QUKFTL/" target="_blank" rel="noopener noreferrer">Facebook</a>
+                  <a class="social-link" href="https://www.snapchat.com/add/fi1_oo?share_id=ez2rePla17Q&locale=ar-JO" target="_blank" rel="noopener noreferrer">Snapchat</a>
+                  <a class="social-link" href="https://t.me/B0SS_S1" target="_blank" rel="noopener noreferrer">Telegram</a>
+                  <a class="social-link" href="https://www.instagram.com/55.0?cplk=cGNucHY5bzlxYzl0" target="_blank" rel="noopener noreferrer">Instagram</a>
+                  <a class="social-link" href="https://wa.link/lc6f5w" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+                  <a class="social-link" href="https://x.com/You_sh94" target="_blank" rel="noopener noreferrer">X</a>
+                  <a class="social-link" href="https://www.linkedin.com/in/yousef-z-445aba414?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                  <a class="social-link" href="https://discord.gg/kgwKFPTmZE" target="_blank" rel="noopener noreferrer">Discord</a>
+                  <a class="social-link" href="https://youtube.com/@shaheenos?si=zhAQOa0MO2K6jKiS" target="_blank" rel="noopener noreferrer">YouTube</a>
+                  <a class="social-link" href="mailto:shaheen.group000@gmail.com">Email</a>
+                  <a class="social-link" href="mailto:shaheen.group000@yahoo.com">Yahoo</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <div class="container footer-inner">
+          <div class="footer-copy">YOUSIVAR–Ω</div>
+          <div class="footer-links">
+            <a href="https://github.com/1994ivx-ops/YOUSIVAR-9944" target="_blank" rel="noopener noreferrer">Repository</a>
+            <a href="https://github.com/1994ivx-ops/YOUSIVAR-9944" target="_blank" rel="noopener noreferrer">Documentation</a>
+            <a href="https://github.com/1994ivx-ops/YOUSIVAR-9944" target="_blank" rel="noopener noreferrer">Licensing</a>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script>
+      (function () {
+        const introOverlay = document.getElementById('introOverlay');
+        const skipIntro = document.getElementById('skipIntro');
+        const audioToggle = document.getElementById('audioToggle');
+        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        const revealItems = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.14 });
+
+        revealItems.forEach((item) => observer.observe(item));
+
+        if (reducedMotion) {
+          introOverlay.classList.add('is-hidden');
+        } else {
+          window.setTimeout(() => {
+            introOverlay.classList.add('is-hidden');
+          }, 2600);
+        }
+
+        skipIntro.addEventListener('click', () => {
+          introOverlay.classList.add('is-hidden');
+        });
+
+        let audioContext;
+        let audioElement = null;
+
+        audioToggle.addEventListener('click', () => {
+          const source = 'https://files.catbox.moe/wn3h4d.m4a';
+
+          if (!audioElement) {
+            audioElement = new Audio(source);
+            audioElement.preload = 'auto';
+          }
+
+          if (audioElement.paused) {
+            audioElement.play().catch(() => {
+              audioToggle.textContent = 'Audio blocked';
+            });
+            audioToggle.textContent = 'Pause';
+          } else {
+            audioElement.pause();
+            audioToggle.textContent = 'Audio';
+          }
+        });
+
+        document.querySelector('.nav-toggle').addEventListener('click', () => {
+          const linkList = document.querySelector('.nav-links');
+          const isOpen = linkList.style.display === 'flex';
+          linkList.style.display = isOpen ? 'none' : 'flex';
+          linkList.style.position = isOpen ? 'static' : 'absolute';
+          linkList.style.top = isOpen ? 'auto' : '72px';
+          linkList.style.left = isOpen ? 'auto' : '0';
+          linkList.style.right = isOpen ? 'auto' : '0';
+          linkList.style.flexDirection = 'column';
+          linkList.style.padding = isOpen ? '0' : '18px';
+          linkList.style.background = isOpen ? 'transparent' : 'rgba(255,255,255,0.8)';
+          linkList.style.border = isOpen ? '0' : '1px solid rgba(8,8,8,0.12)';
+          linkList.style.borderRadius = isOpen ? '0' : '18px';
+          linkList.style.boxShadow = isOpen ? 'none' : '0 18px 38px rgba(8,8,8,0.07)';
+        });
+      })();
+    </script>
+  </body>
+</html>
